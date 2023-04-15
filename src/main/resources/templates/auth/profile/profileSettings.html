@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+    <link rel="stylesheet" href="/style.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+            rel="stylesheet"
+    />
+
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
+    ></script>
+
+</head>
+<body>
+
+<!--/*@thymesVar id="currentUser" type="ru.timur.project.Hubr.dto.UserDTO"*/-->
+<div th:insert="${currentUser != null} ? ~{fragments/navbar :: navbarForUser (user = ${currentUser})} :
+ ~{fragments/navbar :: navbarForAnon}"></div>
+
+<!--/*@thymesVar id="user" type="ru.timur.project.Hubr.dto.UserDTO"*/-->
+<div class="container">
+    <div class="container-xl px-4 mt-4">
+        <hr class="mt-0 mb-4">
+        <div class="row">
+            <div class="col-xl-4">
+                <!-- Profile picture card-->
+                <div class="card mb-4 mb-xl-0">
+                    <div class="card-header">Profile Picture</div>
+                    <div class="card-body text-center">
+                        <img class="img-account-profile rounded-circle mb-2" height="200px" width="200"
+                             th:src="@{/img/{dir}(dir=${user.getAvatar()})}" alt="">
+                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                        <!-- Profile picture upload button-->
+                        <form th:method="PATCH" th:action="@{/auth/settings/avatar/{id}(id=${user.getId()})}"
+                              enctype="multipart/form-data">
+                            <div class="form-group">
+                                <div class="custom-file">
+                                    <input type="file" class="form-control" id="customFile" name="file"
+                                           accept="image/*">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Save new image</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--/*@thymesVar id="user" type="ru.timur.project.Hubr.dto.UserDTO"*/-->
+            <div class="col-xl-8">
+                <!-- Account details card-->
+                <div class="card mb-4">
+
+                    <div th:insert="~{fragments/settingsTab :: settingTab (message = ${message})}"></div>
+
+                    <div class="card-body">
+                        <form th:method="PATCH" th:action="@{/auth/settings/profile/{id}(id=${user.getId()})}"
+                              th:object="${user}">
+                            <input type="hidden" th:field="*{role}">
+                            <input type="hidden" th:field="*{avatar}">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <!-- Form Group (username)-->
+                            <div class="mb-3">
+                                <label class="small mb-1" for="fullName">Full name</label>
+                                <input class="form-control" id="fullName" type="text"
+                                       name="fullName" th:placeholder="${user.getFullName()}">
+                                <div style="color: red" th:if="${#fields.hasErrors('fullName')}"
+                                     th:errors="*{fullName}"></div>
+                            </div>
+                            <!-- Form Group (email address)-->
+                            <div class="mb-3">
+                                <label class="small mb-1" for="aboutYourself">About yourself</label>
+                                <input class="form-control" id="aboutYourself" type="text"
+                                       name="description" th:placeholder="${user.getDescription()}">
+                                <div style="color: red" th:if="${#fields.hasErrors('description')}"
+                                     th:errors="*{description}"></div>
+                            </div>
+                            <!-- Form Row-->
+                            <div class="row gx-3 mb-3">
+
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="gender">Gender</label>
+                                    <br/>
+                                    <select th:object="${user}" th:field="*{gender}" id="gender">
+                                        <option selected value="">not specified</option>
+                                        <option th:each="gender : ${genders}" th:value="${gender.getGender()}"
+                                                th:text="${gender.getGender()}"></option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="country">Country</label>
+                                    <br/>
+                                    <select
+                                            th:object="${user}" th:field="*{country}" id="country">
+                                        <option selected value="">not specified</option>
+                                        <option th:each="country : ${countries}" th:value="${country.getCountry()}"
+                                                th:text="${country.getCountry()}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Save changes button-->
+                            <button class="btn btn-primary" type="submit">Save changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

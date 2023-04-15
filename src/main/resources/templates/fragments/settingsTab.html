@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="settingTab (message)">
+<div class="card-header">
+    <div th:if="${message != null}" th:text="${message}"
+         class="alert alert-success" role="alert"></div>
+    <div th:if="${newEmailMessage != null}" th:text="${newEmailMessage}"
+         class="alert alert-success" role="alert"></div>
+    <ul class="profile-header-tab nav nav-tabs nav-tabs-v2">
+        <li class="nav-item">
+            <a th:href="@{/auth/settings/profile}" class="nav-link">
+                <div class="nav-field">Profile</div>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{/auth/settings/email}" class="nav-link">
+                <div class="nav-field">Email</div>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{/auth/settings/password}" class="nav-link">
+                <div class="nav-field">Password</div>
+            </a>
+        </li>
+    </ul>
+</div>
+</div>
+
+</body>
+</html>

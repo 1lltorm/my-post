@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new tag</title>
+    <link rel="stylesheet" href="/style.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+            rel="stylesheet"
+    />
+
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
+    ></script>
+
+</head>
+<body>
+
+<!--/*@thymesVar id="currentUser" type="ru.timur.project.Hubr.dto.UserDTO"*/-->
+<div th:insert="${currentUser != null} ? ~{fragments/navbar :: navbarForUser (user = ${currentUser})} :
+ ~{fragments/navbar :: navbarForAnon}"></div>
+
+<div class="container mr-5">
+    <!--/*@thymesVar id="tag" type="ru.timur.project.Hubr.dto.TagDTO"*/-->
+    <div class="container-xl px-5 mt-4">
+        <div class="row">
+            <div class="col-xl-8">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">
+                       <h4 style="text-align: center">add new tag</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:method="POST" th:action="@{/tags}"
+                              enctype="multipart/form-data" th:object="${tag}">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <div class="mb-3">
+                                <label class="small mb-1" for="name">Tag name</label>
+                                <input class="form-control" id="name" type="text"
+                                       name="name">
+                                <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="small mb-1" for="description">Description</label>
+                                <input class="form-control" id="description" type="text"
+                                       name="description">
+                                <div style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-file">
+                                    <label class="custom-file-label" for="customFile">Choose icon for tag</label>
+                                    <input type="file" class="form-control" id="customFile" name="file"
+                                           accept="image/*">
+                                    <div style="color: red" th:if="${#fields.hasErrors('icon')}" th:errors="*{icon}"></div>
+                                </div>
+                            </div>
+                            <!-- Save changes button-->
+                            <br/>
+                            <button class="btn btn-primary" type="submit">Submit for moderation</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

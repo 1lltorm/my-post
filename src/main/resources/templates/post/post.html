@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${post.getHeader()}"></title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"/>
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"/>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+            rel="stylesheet"/>
+
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+
+    <script>
+        let com = document.querySelector('#comments')
+        let body = document.querySelector('body')
+
+        window.onload = function () {
+            body.scrollIntoView(com)
+        }
+
+    </script>
+
+    <script>
+        var loadFile = function (event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('output');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        };
+    </script>
+
+</head>
+<body>
+
+<!--/*@thymesVar id="currentUser" type="ru.timur.project.Hubr.dto.UserDTO"*/-->
+<div th:insert="${currentUser != null} ? ~{fragments/navbar :: navbarForUser (user = ${currentUser})} :
+ ~{fragments/navbar :: navbarForAnon}"></div>
+
+<!--/*@thymesVar id="post" type="ru.timur.project.Hubr.dto.PostDTO"*/-->
+<div class="container mt-5">
+    <div class="card" style="width: 850px">
+        <div class="content mt-4">
+            <div class="first-line">
+                <a th:href="@{/users/{id}(id=${post.getOwner().getId()})}"><img class="user-logo"
+                                                                                th:src="@{/img/{dir}(dir=${post.getOwner().getAvatar()})}"
+                                                                                alt=""
+                                                                                width="25" height="25"></a>
+                <a th:href="@{/users/{id}(id=${post.getOwner().getId()})}">
+                    <span class="username" th:text="${post.getOwner().getUsername()}"></span></a>
+                <span class="post-time" th:text="${post.getDateForPost()}"></span>
+            </div>
+
+            <div class="card-head">
+                <a th:href="@{/posts/{id}(id=${post.getId()})}"><h1 th:text="${post.getHeader()}"></h1></a>
+                <div>
+                    <i style="width: 15px; height: 15px" class="fas fa-eye"></i>
+                    <span class="views" th:text="${' '+ post.getViews()}"></span>
+                </div>
+            </div>
+
+            <div class="middle">
+                <div>
+                    <a th:href="@{/tags/{id}(id=${t.getId()})}" th:each="t : ${post.getTagList()}" class="some-head"
+                       th:text="${t.getName() + '*  '}"></a>
+                </div>
+                <img class="middle-img" th:src="@{/img/{dir}(dir=${post.getCover()})}" alt="">
+            </div>
+
+            <div class="text mt-4" th:utext="${post.getBody()}"></div>
+            <hr>
+        </div>
+    </div>
+    <!--    <div th:if="${comments == null || comments.size() == 0}">No comments here</div>-->
+    <div id="comments"></div>
+    <div class="panel mt-2" style="width: 850px;">
+
+        <div th:if="${currentUser == null}" style="text-align: center">
+            <a href="/auth/login" class="btn btn-primary">Login to send message</a>
+        </div>
+
+        <!--/*@thymesVar id="comment" type="ru.timur.project.Hubr.dto.CommentDTO"*/-->
+        <form th:if="${currentUser != null}" th:method="POST" th:action="@{/comments/{id}(id=${post.getId()})}"
+              th:object="${comment}">
+
+            <textarea rows="2" type="text" id="content" placeholder="Write comment" class="form-control"
+                      autocomplete="off" th:field="*{body}"></textarea>
+            <div style="color: red" th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></div>
+            <button class="btn btn-primary" style="margin-top: -45px" type="submit">Write!</button>
+        </form>
+
+        <div class="panel-body" th:each="comment : ${comments}">
+            <div class="media-block">
+                <a style="padding-right: 15px;" class="media-left"
+                   th:href="@{/users/{id}(id=${comment.getOwner().getId()})}">
+                    <img height="46px" width="46px"
+                         class="rounded-circle"
+                         alt="Profile Picture"
+                         th:src="@{/img/{dir}(dir=${comment.getOwner().getAvatar()})}">
+                </a>
+                <div class="media-body">
+                    <div class="mar-btm">
+                        <a th:href="@{/users/{id}(id=${comment.getOwner().getId()})}"
+                           class="btn-link text-semibold media-heading box-inline"
+                           th:text="${comment.getOwner().getUsername()}"></a>
+                        <p class="text-muted text-sm" th:text="${comment.getDateForComment()}"></p>
+                    </div>
+                    <p th:utext="${comment.getBody()}"></p>
+                </div>
+            </div>
+            <div th:if="${currentUser != null}">
+            <div style="margin-left: 95%" th:if="${comment.getOwner().getId() == currentUser.getId() || currentUser.isAdmin()}">
+                <form th:method="DELETE" th:action="@{/comments/{id}(id=${comment.getId()})}">
+                    <input type="image" src="/img/util/trash.png" height="20px" alt="Submit From">
+                </form>
+            </div>
+            </div>
+            <hr/>
+        </div>
+    </div>
+</div>
+<script>
+    var simplemde = new SimpleMDE({element: document.getElementById("content")});
+</script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+*{
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+
+a{
+   text-decoration: none;
+   color: inherit;
+}
+
+li{
+   list-style: none;
+}
+
+
+/*.contents{*/
+/*   margin-bottom: 30px;*/
+/*   border: 1px solid black;*/
+/*}*/
+
+
+/*=== Head content ===*/
+
+.head{
+   display: flex;
+   justify-content: space-between;
+   margin-bottom: 30px;
+}
+
+.left-part{
+   position: relative;
+}
+
+.logo{
+   display: inline-block;
+   margin-right: 5px;
+}
+
+.rating-count {
+   margin-left: 14px;
+   color: rgb(26, 173, 203);
+   font-weight: 700;
+}
+
+.rating-text {
+   font-size: 16px;
+   margin-left: 3px;
+   color: rgb(72, 72, 72);
+}
+
+.right-part{
+   margin-top: 10px;
+}
+
+.button{
+   padding: 5px 10px 5px 10px;
+   font-weight: 500;
+   transition: all .4s;
+}
+
+
+
+/* ========= */
+
+
+
+
+/*=== Middle content ===*/
+
+.mid {
+   margin-bottom: 35px;
+}
+.mid__heading {
+   color: rgb(53, 53, 53);
+   margin-bottom: 10px;
+}
+.mid__text {
+   color: rgb(72, 72, 72);
+}
+
+/* ========= */
+
+
+
+/*=== Footer content ===*/
+
+.foot__links {
+   display: flex;
+   gap: 25px;
+}
+.link {
+   color: rgb(24, 134, 156);
+   font-weight: 600;
+   transition: all .3s;
+}
+
+.link:hover{
+   color:rgb(17, 94, 109)
+}
+
+/* ==========*/

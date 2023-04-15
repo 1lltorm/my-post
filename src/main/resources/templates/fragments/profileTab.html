@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--/*@thymesVar id="user" type="ru.timur.project.Hubr.dto.UserDTO"*/-->
+<div th:fragment="tab (user, currentUser)">
+    <ul class="profile-header-tab nav nav-tabs nav-tabs-v2">
+        <li class="nav-item">
+            <a class="nav-link">
+
+                <a th:href="@{/users/{id}(id = ${user.getId()})}" class="nav-link">
+                    <div class="nav-field">Profile</div>
+                </a>
+            </a>
+        </li>
+        <li class="nav-item" th:if="${user.getPostList().size() != 0}">
+            <a class="nav-link">
+                <a th:href="@{/users/{id}/posts(id = ${user.getId()})}" class="nav-link">
+                    <div class="nav-field">Posts</div>
+                    <div class="nav-value" th:text="${user.getPostList().size()}"></div>
+                </a>
+            </a>
+        </li>
+        <li class="nav-item" th:if="${user.getSubscribers().size() != 0}">
+            <a class="nav-link">
+                <a th:href="@{/users/{id}/subscribers(id = ${user.getId()})}" class="nav-link">
+                    <div class="nav-field">Subscribers</div>
+                    <div class="nav-value" th:text="${user.getSubscribers().size()}"></div>
+                </a>
+            </a>
+        </li>
+        <li class="nav-item" th:if="${user.getSubscriptions().size() != 0}">
+            <a class="nav-link">
+                <a th:href="@{/users/{id}/subscriptions(id = ${user.getId()})}" class="nav-link">
+                    <div class="nav-field">Subscriptions</div>
+                    <div class="nav-value" th:text="${user.getSubscriptions().size()}"></div>
+                </a >
+            </a>
+        </li>
+        <li class="nav-item" th:if="${currentUser != null && currentUser.getId() != user.getId()}">
+            <div>
+                <a class="nav-link" th:if="${!user.getSubscribers().contains(currentUser)}">
+                    <a style="color: blue; margin-left: 200px" th:href="@{/users/subscribe/{id}(id=${user.getId()})}" class="nav-link">
+                        <div class="nav-field">Subscribe</div>
+                    </a>
+                </a>
+
+                <a class="nav-link" th:if="${user.getSubscribers().contains(currentUser)}">
+                    <a style="color: blue; margin-left: 200px" th:href="@{/users/unsubscribe/{id}(id=${user.getId()})}" class="nav-link">
+                        <div class="nav-field">Unsubscribe</div>
+                    </a>
+                </a>
+
+            </div>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

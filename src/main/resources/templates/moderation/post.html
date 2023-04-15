@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${post.getHeader()}"></title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"/>
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"/>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+            rel="stylesheet"/>
+
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+
+
+</head>
+<body>
+
+<!--/*@thymesVar id="currentUser" type="ru.timur.project.Hubr.dto.UserDTO"*/-->
+<div th:insert="${currentUser != null} ? ~{fragments/navbar :: navbarForUser (user = ${currentUser})} :
+ ~{fragments/navbar :: navbarForAnon}"></div>
+
+<!--/*@thymesVar id="post" type="ru.timur.project.Hubr.dto.PostDTO"*/-->
+<div class="container mt-5">
+    <div class="card">
+        <div class="content mt-4">
+            <div class="first-line">
+                <a th:href="@{/users/{id}(id=${post.getOwner().getId()})}"><img class="user-logo"
+                                                                                th:src="@{/img/{dir}(dir=${post.getOwner().getAvatar()})}"
+                                                                                alt=""
+                                                                                width="25" height="25"></a>
+                <a th:href="@{/users/{id}(id=${post.getOwner().getId()})}">
+                    <span class="username" th:text="${post.getOwner().getUsername()}"></span></a>
+                <span class="post-time" th:text="${post.getDateForPost()}"></span>
+            </div>
+
+            <div class="card-head">
+                <a th:href="@{/posts/{id}(id=${post.getId()})}"><h1 th:text="${post.getHeader()}"></h1></a>
+                <span class="views"><img src="/images/util/views.png" alt=""
+                                         width="15" height="15" th:text="${post.getViews()}"></span>
+            </div>
+
+            <div class="middle">
+                <div>
+                    <a th:href="@{/tags/{id}(id=${t.getId()})}" th:each="t : ${post.getTagList()}" class="some-head"
+                       th:text="${t.getName() + '*  '}"></a>
+                </div>
+                <img class="middle-img" th:src="@{/img/{dir}(dir=${post.getCover()})}" alt="">
+            </div>
+
+            <div class="text mt-4" th:utext="${post.getBody()}"></div>
+            <hr>
+        </div>
+        <div>
+            <form th:method="PATCH" th:action="@{/moderation/posts/{id}(id=${post.getId()})}">
+                <button type="submit" class="btn btn-outline-success btn-rounded">Allow publishing</button>
+            </form>
+        </div>
+        <div style="margin-top: -35px; margin-left: 80%">
+            <form th:method="DELETE" th:action="@{/moderation/posts/{id}(id=${post.getId()})}">
+                <button type="submit" class="btn btn-outline-danger btn-rounded">Not allow publishing</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

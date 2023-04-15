@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  postgresdb:
+    image: 'postgres:15'
+    container_name: 'hubr-postgres'
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=postgres'
+      - 'POSTGRES_DB=hubr'
+    volumes:
+      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+  app:
+    build: ./
+    container_name: 'hubr'
+    ports:
+      - '8080:8080'
+
+

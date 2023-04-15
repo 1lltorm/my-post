@@ -1,0 +1,25 @@
+.file-area {
+    width: 100%;
+    position: relative;
+}
+
+input[type=file] {
+    position: absolute;
+    width: 500px;
+    padding: 150px;
+    margin-left: 300px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-dummy {
+    width: 500px;
+    padding: 150px;
+    margin-left: 300px;
+    text-align: center;
+    transition: background 0.3s ease-in-out;
+}

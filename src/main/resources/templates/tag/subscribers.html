@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${tag.getName()}"></title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"/>
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"/>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+            rel="stylesheet"/>
+
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+
+    <link rel="stylesheet" href="/static/tag/style.css">
+
+</head>
+<body>
+
+<!--/*@thymesVar id="currentUser" type="ru.timur.project.Hubr.dto.UserDTO"*/-->
+<div th:insert="${currentUser != null} ? ~{fragments/navbar :: navbarForUser (user = ${currentUser})} :
+ ~{fragments/navbar :: navbarForAnon}"></div>
+
+<!--/*@thymesVar id="tag" type="ru.timur.project.Hubr.dto.TagDTO"*/-->
+<div class="container mt-5">
+    <div class="contents">
+
+        <div class="head">
+            <div class="left-part">
+                <div class="logo">
+                    <img th:src="@{/img/{dir}(dir=${tag.getIcon()})}" alt="" width="40" height="40">
+                </div>
+                <span class="rating-count" th:text="${tag.getSubscribedUsers().size()}"></span>
+                <span class="rating-text">Subscribers</span>
+            </div>
+
+            <div class="right-part" th:if="${currentUser != null}">
+                <div th:if="${!tag.getSubscribedUsers().contains(currentUser)}">
+                    <a class="btn btn-outline-danger btn-rounded"
+                       th:href="@{/tags/subscribe/{id}/{url}(id=${tag.getId()},url=${'tag'})}">
+                        subscribe
+                    </a>
+                </div>
+
+                <div th:if="${tag.getSubscribedUsers().contains(currentUser)}">
+                    <a class="btn btn-outline-danger btn-rounded"
+                       th:href="@{/tags/unsubscribe/{id}/{url}(id=${tag.getId()},url=${'tag'})}">
+                        unsubscribe
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mid">
+            <h2 class="mid__heading" th:text="${tag.getName()}"></h2>
+            <p class="mid__text" th:text="${tag.getDescription()}"></p>
+        </div>
+
+        <div class="foot">
+            <ul class="foot__links">
+                <li class="link"><a th:href="@{/tags/{id}(id=${tag.getId()})}"> Posts </a> </li>
+                <li class="link"><a th:href="@{/tags/{id}/subscribers(id=${tag.getId()})}"> Subscribers </a> </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <div class="card mt-2">
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+            <tr>
+                <th>Name</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <div th:each="user : ${users}">
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <a th:href="@{/users/{id}(id=${user.getId()})}"><img
+                                    th:src="@{/img/{dir}(dir=${user.getAvatar()})}" style="width: 45px; height: 45px"
+                                    class="rounded-circle"/> </a>
+
+                            <div class="ms-3">
+                                <a th:href="@{/users/{id}(id=${user.getId()})}">
+                                    <p class="fw-bold mb-1" th:text="${user.getUsername()}"></p> </a>
+                                <p class="text-muted mb-0" th:text="${user.getDescription()}"></p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </div>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

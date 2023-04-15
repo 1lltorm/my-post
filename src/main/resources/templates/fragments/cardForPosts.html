@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+
+<div th:fragment="card (posts)">
+
+    <div class="card" style="width: 850px">
+        <!--/*@thymesVar id="posts" type="java.util.List"*/-->
+        <!--/*@thymesVar id="post" type="ru.timur.project.Hubr.dto.PostDTO"*/-->
+        <div th:each="post : ${posts}">
+            <div class="content mt-4">
+                <div class="first-line">
+                    <a th:href="@{/users/{id}(id=${post.getOwner().getId()})}"><img class="user-logo"
+                                                                                    th:src="@{/img/{dir}(dir=${post.getOwner().getAvatar()})}"
+                                                                                    alt=""
+                                                                                    width="25" height="25"></a>
+                    <a th:href="@{/users/{id}(id=${post.getOwner().getId()})}">
+                        <span class="username" th:text="${post.getOwner().getUsername()}"></span></a>
+                    <span class="post-time" th:text="${post.getDateForPost()}"></span>
+                </div>
+
+                <div class="card-head">
+                    <a th:href="@{/posts/{id}(id=${post.getId()})}"><h1 th:text="${post.getHeader()}"></h1></a>
+                    <div>
+                        <i style="width: 15px; height: 15px" class="fas fa-eye"></i>
+                        <span class="views" th:text="${' '+ post.getViews()}"></span>
+                        <a th:href="@{/posts/{id}#comments(id=${post.getId()})}"><i class="far fa-comment"></i></a>
+                        <nobr th:text="${post.getComments().size()}"></nobr>
+                    </div>
+                </div>
+
+                <div class="middle">
+                    <div>
+                        <a th:href="@{/tags/{id}(id=${t.getId()})}" th:each="t : ${post.getTagList()}" class="some-head"
+                           th:text="${t.getName() + '*  '}"></a>
+                    </div>
+                    <img class="middle-img" th:src="@{/img/{dir}(dir=${post.getCover()})}" alt="">
+                </div>
+
+                <div class="text mt-4" th:utext="${post.getNotFullBody()}"></div>
+
+                <nobr class="button">
+                    <a th:href="@{/posts/{id}(id=${post.getId()})}">Read more</a>
+                </nobr>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div th:fragment="cardForModerator (posts)">
+
+    <div class="card" style="width: 850px">
+        <!--/*@thymesVar id="posts" type="java.util.List"*/-->
+        <!--/*@thymesVar id="post" type="ru.timur.project.Hubr.dto.PostDTO"*/-->
+        <div th:each="post : ${posts}">
+            <div class="content mt-4">
+                <div class="first-line">
+                    <a th:href="@{/users/{id}(id=${post.getOwner().getId()})}"><img class="user-logo"
+                                                                                    th:src="@{/img/{dir}(dir=${post.getOwner().getAvatar()})}"
+                                                                                    alt=""
+                                                                                    width="25" height="25"></a>
+                    <a th:href="@{/users/{id}(id=${post.getOwner().getId()})}">
+                        <span class="username" th:text="${post.getOwner().getUsername()}"></span></a>
+                    <span class="post-time" th:text="${post.getDateForPost()}"></span>
+                </div>
+
+                <div class="card-head">
+                    <a th:href="@{/moderation/posts/{id}(id=${post.getId()})}"><h1 th:text="${post.getHeader()}"></h1></a>
+                    <div>
+                        <i style="width: 15px; height: 15px" class="fas fa-eye"></i>
+                        <span class="views" th:text="${' '+ post.getViews()}"></span>
+                    </div>
+                </div>
+
+                <div class="middle">
+                    <div>
+                        <a th:href="@{/tags/{id}(id=${t.getId()})}" th:each="t : ${post.getTagList()}" class="some-head"
+                           th:text="${t.getName() + '*  '}"></a>
+                    </div>
+                    <img class="middle-img" th:src="@{/img/{dir}(dir=${post.getCover()})}" alt="">
+                </div>
+
+                <div class="text mt-4" th:utext="${post.getNotFullBody()}"></div>
+
+                <div class="button">
+                    <a th:href="@{/moderation/posts/{id}(id=${post.getId()})}">Read more</a>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
