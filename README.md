@@ -1,32 +1,72 @@
 # hubr
 
-### Run the application
+hubr is simple a web application with the ability to create and moderate posts and much more
 
-<hr>
+* [Technologies](#technologies)
+* [Features](#features)
+* [Quick start](#quick-start)
 
-1 clone the project with the command below
-<br>
-<code>git clone https://github.com/qReolq/hubr.git</code>
+### Technologies
+  * Openjdk 19
+  * Spring (Boot, Security, JPA, MVC)
+  * Lombok
+  * Maven
+  * Docker
+  * JDBC
+  * JDBCTemplate
+  * Hibernate
+  * PostgresSQL 14
+  * JUnit 5
+  * Mockito
+  * Thymeleaf
+  * Bootstrap 5
+  * HTML, CSS
+ 
+### Features
+  * Register a new account with email confirmation and reCAPTCHA    <sup> (for this you need to follow this [instruction](#registration-settings)) </sup>
+  * User
+     * Subscribe to tags and users
+     * Сomment on posts
+     * Get notifications from subscribed users
+     * Upload profile
+     * Create new posts and tags
+  * Admin
+    * Moderate new posts and tags
+    * Ban users and grant them rights
+    * Delete user comments
+  * And much more
 
-2 go to the project folder
 
-3 run docker-compose with the command below
-<br>
-<code>sudo docker compose up</code>
+### Quick start
+1. Clone this repo into folder.
 
-4 go to http://localhost:8080/auth/reg
+```Bash
+git clone https://github.com/qReolq/hubr.git
+cd hubr
+```
+2. Start docker compose
 
-5 stop docker with the following command
-<br>
-<code>sudo docker compose down</code>
+```Bash
+docker compose up
+```
+3. Go to http://localhost:8080/auth/login
 
-<hr>
-To register, you need to provide your google mail and password from google applications in the application.properties file
+4. You can [register](#registration-settings) or login as an existing user ~ login:timur password:1q2w
 
-![image](https://user-images.githubusercontent.com/115367574/231686252-c7d49c66-a0f3-48f8-b4cc-8163df2f2aa3.png)
+5. Stop docker
+```
+docker compose down
+```
 
-Or you can use an already existing account
+### Registration settings
+1. To register you need to provide your google email address and google apps password to application.properties file
 
-username: timur
-
-password: 1q2w
+```properties
+spring.mail.username=your_gmail_addres
+spring.mail.password=your_application_passwords
+```
+2. Package the project and run docker
+```Bash
+./mvnw package -DskipTests
+docker compose up --build
+```
