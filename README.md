@@ -5,6 +5,7 @@ hubr is simple a web application with the ability to create and moderate posts a
 * [Technologies](#technologies)
 * [Features](#features)
 * [Quick start](#quick-start)
+* [ER Model](#hubr-er-model)
 
 ### Technologies
   * Openjdk 19
@@ -70,3 +71,6 @@ spring.mail.password=your_application_passwords
 ./mvnw package -DskipTests
 docker compose up --build
 ```
+### hubr ER Model
+
+![image](https://user-images.githubusercontent.com/115367574/232320459-08dbfa2b-46a3-450e-ab6b-c8265f5404c0.png)
