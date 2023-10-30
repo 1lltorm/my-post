@@ -8,7 +8,7 @@ hubr is simple a web application with the ability to create and moderate posts a
 * [ER Model](#hubr-er-model)
 
 ### Technologies
-Openjdk 19, Spring (Boot, Security, JPA, MVC), Lombok, Maven, Docker, Hibernate, PostgresSQL, JUnit, Mockito, Thymeleaf, Bootstrap, HTML, CSS
+Spring (Boot, Security, JPA, MVC), Lombok, Maven, Docker, Hibernate, PostgreSQL, JUnit, Mockito, Thymeleaf, Bootstrap, HTML, CSS
  
 ### Features
   * Register a new account with email confirmation and reCAPTCHA    <sup> (for this you need to follow this [instruction](#registration-settings)) </sup>
