@@ -1,6 +1,6 @@
-# hubr
+# my-post
 
-hubr is simple a web application with the ability to create and moderate posts and much more
+my-post is simple a web application with the ability to create and moderate posts and much more
 
 * [Technologies](#technologies)
 * [Features](#features)
@@ -58,6 +58,6 @@ spring.mail.password=your_application_passwords
 ./mvnw package -DskipTests
 docker compose up --build
 ```
-### hubr ER Model
+### my-post ER Model
 
 ![image](https://user-images.githubusercontent.com/115367574/232320459-08dbfa2b-46a3-450e-ab6b-c8265f5404c0.png)
