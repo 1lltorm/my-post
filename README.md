@@ -29,8 +29,8 @@ Spring (Boot, Security, JPA, MVC), Lombok, Maven, Docker, Hibernate, PostgreSQL,
 1. Clone this repo into folder.
 
 ```Bash
-git clone https://github.com/qReolq/hubr.git
-cd hubr
+git clone git@github.com:qReolq/my-post.git
+cd my-post
 ```
 2. Start docker compose
 
