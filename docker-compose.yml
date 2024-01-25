@@ -2,7 +2,9 @@ version: '3'
 
 services:
   postgresdb:
-    image: 'postgres:15'
+    build:
+      context: ./db
+      dockerfile: Dockerfile
     container_name: 'hubr-postgres'
     environment:
       - 'POSTGRES_USER=postgres'
@@ -11,11 +13,13 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+      - ./var/pgdata:/var/lib/postgresql/data
+    depends_on:
+      - app
   app:
-    build: ./
+    build:
+      context: ./
+      dockerfile: Dockerfile
     container_name: 'hubr'
     ports:
       - '8080:8080'
-
-
