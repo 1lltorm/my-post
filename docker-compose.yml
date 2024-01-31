@@ -13,7 +13,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./var/pgdata:/var/lib/postgresql/data
+      - ./var/pgdata:/var/lib/postgresql/data:z
     depends_on:
       - app
   app:
