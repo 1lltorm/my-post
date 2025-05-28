@@ -14,7 +14,7 @@
 	<name>Hubr</name>
 	<description>Project with jpa, spring boot, security, jpa (hibernate). maven jdk 19</description>
 	<properties>
-		<java.version>19</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
